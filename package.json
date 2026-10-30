@@ -67,7 +67,7 @@
     "build": "tsup",
     "typecheck": "tsc -p .",
     "test": "tsx --test test/*.test.ts",
-    "test:dist": "node scripts/smoke-test.mjs",
+    "test:dist": "tsc -p tsconfig.scripts.json && tsx scripts/smoke-test.ts",
     "docs": "typedoc",
     "prepublishOnly": "npm run typecheck && npm test && npm run build && npm run test:dist"
   },
