@@ -1,66 +1,101 @@
-# data-structure-js
+# ds-kit-js
 
-Классические структуры данных, которых нет в стандартной библиотеке JavaScript.
-Чистый JS (ES-модули), без зависимостей, с тестами на встроенном `node:test`.
+[![npm](https://img.shields.io/npm/v/ds-kit-js.svg)](https://www.npmjs.com/package/ds-kit-js)
+[![CI](https://github.com/nullvble/data-structure-js/actions/workflows/ci.yml/badge.svg)](https://github.com/nullvble/data-structure-js/actions/workflows/ci.yml)
+[![types](https://img.shields.io/npm/types/ds-kit-js.svg)](https://www.npmjs.com/package/ds-kit-js)
+[![license](https://img.shields.io/npm/l/ds-kit-js.svg)](./LICENSE)
 
-## Состав
+Типизированные структуры данных, которых нет в стандартной библиотеке JavaScript:
+очереди, деревья поиска, кучи, префиксные деревья, графы, кэши и вероятностные структуры.
 
-| Структура | Файл | Основные операции | Сложность |
-|---|---|---|---|
-| `Stack` — стек (LIFO) | `src/Stack.js` | `push`, `pop`, `peek` | O(1) |
-| `Queue` — очередь (FIFO) на кольцевом буфере | `src/Queue.js` | `enqueue`, `dequeue`, `peek` | O(1)* |
-| `Deque` — двусторонняя очередь | `src/Deque.js` | `pushFront/Back`, `popFront/Back`, `at` | O(1)* |
-| `LinkedList` — односвязный список | `src/LinkedList.js` | `append`, `prepend`, `insertAt`, `removeAt`, `reverse` | O(1) / O(n) |
-| `DoublyLinkedList` — двусвязный список | `src/DoublyLinkedList.js` | `push`, `unshift`, `pop`, `shift`, `removeNode` | O(1) |
-| `BinarySearchTree` — двоичное дерево поиска | `src/BinarySearchTree.js` | `insert`, `has`, `delete`, `min/max`, `floor/ceil`, обходы | O(h) |
-| `AVLTree` — сбалансированное дерево поиска | `src/AVLTree.js` | `insert`, `has`, `delete`, `min/max` | O(log n) |
-| `BinaryHeap`, `MinHeap`, `MaxHeap` — двоичная куча | `src/BinaryHeap.js` | `push`, `pop`, `peek` | O(log n) |
-| `PriorityQueue` — очередь с приоритетом (стабильная) | `src/PriorityQueue.js` | `enqueue(value, priority)`, `dequeue` | O(log n) |
-| `Trie` — префиксное дерево | `src/Trie.js` | `insert`, `has`, `hasPrefix`, `wordsWithPrefix`, `delete` | O(L) |
-| `DisjointSet` — Union-Find | `src/DisjointSet.js` | `union`, `find`, `connected`, `groups` | ≈O(1) |
-| `LRUCache` — LRU-кэш | `src/LRUCache.js` | `get`, `set`, `peek`, `delete` | O(1) |
-| `Graph` — граф (ориентированный/неориентированный, взвешенный) | `src/Graph.js` | `bfs`, `dfs`, `shortestPath` (Дейкстра), `topologicalSort`, `hasCycle` | — |
+*Typed data structures missing from the JavaScript standard library.*
 
-\* амортизированно
+- **TypeScript** — написано на TypeScript, обобщённые типы, встроенные `.d.ts`
+- **Без зависимостей**, около 14 КБ в gzip, tree-shaking (`sideEffects: false`)
+- **ESM и CommonJS**, Node.js 20+ и браузеры
+- **Единый API**: `size`, `isEmpty()`, `clear()`, `toArray()`, `for...of`
+- **Протестировано**: рандомизированная сверка с эталонными реализациями, проверка инвариантов деревьев
 
-Все коллекции поддерживают `size`, `isEmpty()`, `clear()`, `toArray()` и протокол итерации (`for...of`, spread).
-Деревья и кучи принимают собственный компаратор `(a, b) => number`.
+📖 **[Документация](https://nullvble.github.io/data-structure-js/)** · [Быстрый старт](./docs/getting-started.md) · [Как выбрать структуру](./docs/choosing.md)
 
-## Использование
+## Установка
 
-```js
-import { Queue, BinarySearchTree, PriorityQueue, Graph, LRUCache } from './src/index.js';
+```bash
+npm install ds-kit-js
+```
 
-const q = new Queue([1, 2, 3]);
-q.enqueue(4);
-q.dequeue(); // 1
+## Пример
 
-const bst = new BinarySearchTree([8, 3, 10, 1, 6]);
-bst.has(6);        // true
-[...bst];          // [1, 3, 6, 8, 10]
-bst.floor(7);      // 6
+```ts
+import { Queue, RedBlackTree, PriorityQueue, Graph, LRUCache } from 'ds-kit-js';
 
-const users = new BinarySearchTree([], (a, b) => a.age - b.age);
-users.insert({ name: 'Аня', age: 30 });
+const queue = new Queue([1, 2, 3]);
+queue.dequeue(); // 1 — за O(1), в отличие от Array#shift
 
-const pq = new PriorityQueue();
-pq.enqueue('низкий', 5).enqueue('срочно', 1);
-pq.dequeue(); // 'срочно'
+const tree = new RedBlackTree([50, 20, 80, 10]);
+tree.floor(60);          // 50
+[...tree.range(15, 60)]; // [20, 50]
 
-const g = new Graph()
-  .addEdge('A', 'B', 4)
-  .addEdge('A', 'C', 2)
-  .addEdge('C', 'B', 1);
-g.shortestPath('A', 'B'); // { distance: 3, path: ['A', 'C', 'B'] }
+const tasks = new PriorityQueue<string>();
+tasks.enqueue('отчёт', 2).enqueue('пожар', 0);
+tasks.dequeue(); // 'пожар'
 
-const cache = new LRUCache(2);
+const map = new Graph<string>().addEdge('A', 'B', 4).addEdge('A', 'C', 2).addEdge('C', 'B', 1);
+map.shortestPath('A', 'B'); // { distance: 3, path: ['A', 'C', 'B'] }
+
+const cache = new LRUCache<string, number>(2);
 cache.set('a', 1).set('b', 2).set('c', 3); // 'a' вытеснен
 ```
 
-## Тесты
+## Структуры
+
+| Категория | Структуры | Руководство |
+|---|---|---|
+| Линейные | `Stack`, `Queue`, `Deque`, `CircularBuffer`, `LinkedList`, `DoublyLinkedList` | [linear.md](./docs/linear.md) |
+| Упорядоченные | `BinarySearchTree`, `AVLTree`, `RedBlackTree`, `SkipList`, `SortedMap` | [ordered.md](./docs/ordered.md) |
+| Кучи и строки | `BinaryHeap`, `MinHeap`, `MaxHeap`, `PriorityQueue`, `Trie` | [heaps-and-strings.md](./docs/heaps-and-strings.md) |
+| Запросы на отрезках | `SegmentTree`, `FenwickTree` | [range-queries.md](./docs/range-queries.md) |
+| Множества и кэши | `BitSet`, `BloomFilter`, `DisjointSet`, `MultiMap`, `LRUCache` | [sets-and-caches.md](./docs/sets-and-caches.md) |
+| Графы | `Graph`: BFS, DFS, Дейкстра, топологическая сортировка, циклы, компоненты, MST (Краскал) | [graphs.md](./docs/graphs.md) |
+
+Сложность всех операций сведена в таблицу в [choosing.md](./docs/choosing.md#сложность-операций).
+
+## Разработка
 
 ```bash
-npm test
+npm install
+npm test            # тесты (node:test + tsx)
+npm run typecheck   # проверка типов
+npm run build       # сборка в dist/ (ESM + CJS + .d.ts)
+npm run test:dist   # проверка собранного пакета
+npm run docs        # API-документация в docs/api
 ```
 
-Требуется Node.js 22+.
+Структура репозитория:
+
+```
+src/       исходники, по одному файлу на структуру; src/index.ts — точка входа
+test/      тесты
+docs/      руководства (Markdown); docs/api — сгенерированная документация
+scripts/   вспомогательные скрипты
+```
+
+## Публикация
+
+Публикация в npm автоматизирована через GitHub Actions ([`release.yml`](./.github/workflows/release.yml)):
+
+1. Один раз добавьте npm-токен в секрет репозитория `NPM_TOKEN`
+   (Settings → Secrets and variables → Actions).
+2. Поднимите версию и запушьте тег:
+
+   ```bash
+   npm version patch   # или minor / major — меняет package.json и создаёт тег vX.Y.Z
+   git push --follow-tags
+   ```
+
+Workflow проверит, что тег совпадает с версией в `package.json`, прогонит тесты,
+соберёт пакет и опубликует его с [provenance](https://docs.npmjs.com/generating-provenance-statements).
+
+## Лицензия
+
+[MIT](./LICENSE)
