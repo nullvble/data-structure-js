@@ -66,6 +66,16 @@ export class SortedMap<K, V> implements Iterable<[K, V]> {
     return this.#tree.ceil(this.#probe(key))?.key;
   }
 
+  /** Наибольший ключ, строго меньший `key` (предыдущий ключ). */
+  lowerKey(key: K): K | undefined {
+    return this.#tree.lower(this.#probe(key))?.key;
+  }
+
+  /** Наименьший ключ, строго больший `key` (следующий ключ). */
+  higherKey(key: K): K | undefined {
+    return this.#tree.higher(this.#probe(key))?.key;
+  }
+
   /** Пары с ключами из отрезка `[low, high]` в порядке возрастания ключей. */
   *entriesBetween(low: K, high: K): IterableIterator<[K, V]> {
     for (const { key, value } of this.#tree.range(this.#probe(low), this.#probe(high))) {

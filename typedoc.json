@@ -1,12 +1,15 @@
 {
   "$schema": "https://typedoc.org/schema.json",
   "name": "ds-kit-js",
-  "entryPoints": ["src/index.ts"],
+  "entryPoints": [
+    "src/index.ts"
+  ],
   "out": "docs/api",
   "readme": "README.md",
   "projectDocuments": [
     "docs/getting-started.md",
     "docs/choosing.md",
+    "docs/examples.md",
     "docs/linear.md",
     "docs/ordered.md",
     "docs/heaps-and-strings.md",
@@ -18,7 +21,9 @@
   "excludePrivate": true,
   "excludeProtected": true,
   "excludeInternal": true,
-  "sort": ["source-order"],
+  "sort": [
+    "source-order"
+  ],
   "navigationLinks": {
     "GitHub": "https://github.com/nullvble/data-structure-js",
     "npm": "https://www.npmjs.com/package/ds-kit-js"

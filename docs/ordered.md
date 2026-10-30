@@ -20,6 +20,7 @@ group: Структуры
 | `has(v)`, `get(v)` | проверка наличия / получение хранимого элемента |
 | `min()`, `max()` | наименьший и наибольший элементы |
 | `floor(v)`, `ceil(v)` | ближайший элемент `≤ v` / `≥ v` |
+| `lower(v)`, `higher(v)` | предыдущий элемент `< v` / следующий `> v` |
 | `range(lo, hi)` | элементы из отрезка `[lo, hi]` по возрастанию |
 | `inOrder()`, `preOrder()`, `postOrder()`, `levelOrder()` | четыре вида обхода (итеративные, без рекурсии) |
 | `height()` | высота дерева |
@@ -30,6 +31,8 @@ import { RedBlackTree } from 'ds-kit-js';
 const timestamps = new RedBlackTree([1000, 1500, 2300, 4100]);
 timestamps.floor(2000);              // 1500 — последнее событие до 2000
 timestamps.ceil(2000);               // 2300 — первое событие после 2000
+timestamps.lower(1500);              // 1000 — событие перед 1500
+timestamps.higher(1500);             // 2300 — событие после 1500
 [...timestamps.range(1200, 3000)];   // [1500, 2300]
 ```
 
@@ -72,7 +75,8 @@ scores.insert(20);
 
 Словарь на основе красно-чёрного дерева, ключи которого всегда отсортированы.
 Интерфейс похож на `Map` (`get`, `set`, `has`, `delete`, `keys`, `values`,
-`entries`), плюс навигация по ключам:
+`entries`), плюс навигация по ключам: `firstKey`/`lastKey`, `floorKey`/`ceilKey`,
+`lowerKey`/`higherKey` и выборка `entriesBetween`:
 
 ```ts
 import { SortedMap } from 'ds-kit-js';

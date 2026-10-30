@@ -86,6 +86,36 @@ export abstract class BinaryTree<T, N extends BinaryTreeNode<T> = BinaryTreeNode
     return result;
   }
 
+  /** Наибольшее значение, строго меньшее `value` (предыдущий элемент). */
+  lower(value: T): T | undefined {
+    let result: T | undefined;
+    let node = this.root;
+    while (node) {
+      if (this.compare(value, node.value) > 0) {
+        result = node.value;
+        node = node.right;
+      } else {
+        node = node.left;
+      }
+    }
+    return result;
+  }
+
+  /** Наименьшее значение, строго большее `value` (следующий элемент). */
+  higher(value: T): T | undefined {
+    let result: T | undefined;
+    let node = this.root;
+    while (node) {
+      if (this.compare(value, node.value) < 0) {
+        result = node.value;
+        node = node.left;
+      } else {
+        node = node.right;
+      }
+    }
+    return result;
+  }
+
   /** Значения из отрезка `[low, high]` в порядке возрастания. Посещает только нужные поддеревья. */
   *range(low: T, high: T): IterableIterator<T> {
     yield* this.#range(this.root, low, high);

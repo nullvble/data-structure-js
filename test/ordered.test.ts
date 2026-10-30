@@ -80,6 +80,16 @@ describe('BinarySearchTree', () => {
     assert.equal(t.ceil(15), undefined);
   });
 
+  it('находит строго предыдущий и следующий элементы', () => {
+    const t = build();
+    assert.equal(t.lower(6), 4);
+    assert.equal(t.higher(6), 7);
+    assert.equal(t.lower(5), 4);
+    assert.equal(t.higher(5), 6);
+    assert.equal(t.lower(1), undefined);
+    assert.equal(t.higher(14), undefined);
+  });
+
   it('принимает собственный компаратор и get возвращает хранимый объект', () => {
     const t = new BinarySearchTree([{ id: 2, name: 'b' }, { id: 1, name: 'a' }], (a, b) => a.id - b.id);
     assert.deepEqual(t.toArray().map((x) => x.id), [1, 2]);
@@ -144,6 +154,9 @@ describe('SortedMap', () => {
     assert.equal(m.lastKey(), 300);
     assert.equal(m.floorKey(250), 200);
     assert.equal(m.ceilKey(250), 300);
+    assert.equal(m.lowerKey(200), 100);
+    assert.equal(m.higherKey(200), 300);
+    assert.equal(m.higherKey(300), undefined);
     assert.deepEqual([...m.entriesBetween(150, 300)], [[200, 'b'], [300, 'c']]);
   });
 

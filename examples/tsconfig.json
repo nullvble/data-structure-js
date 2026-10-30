@@ -1,0 +1,8 @@
+{
+  // Примеры импортируют 'ds-kit-js', как в реальном проекте; при разработке это имя указывает на исходники.
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "paths": { "ds-kit-js": ["../src/index.ts"] }
+  },
+  "include": ["."]
+}

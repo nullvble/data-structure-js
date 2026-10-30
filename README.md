@@ -16,7 +16,7 @@
 - **Единый API**: `size`, `isEmpty()`, `clear()`, `toArray()`, `for...of`
 - **Протестировано**: рандомизированная сверка с эталонными реализациями, проверка инвариантов деревьев
 
-📖 **[Документация](https://nullvble.github.io/data-structure-js/)** · [Быстрый старт](./docs/getting-started.md) · [Как выбрать структуру](./docs/choosing.md)
+📖 **[Документация](https://nullvble.github.io/data-structure-js/)** · [Быстрый старт](./docs/getting-started.md) · [Как выбрать структуру](./docs/choosing.md) · [Примеры из реальных задач](https://github.com/nullvble/data-structure-js/tree/master/examples)
 
 ## Установка
 
@@ -60,12 +60,29 @@ cache.set('a', 1).set('b', 2).set('c', 3); // 'a' вытеснен
 
 Сложность всех операций сведена в таблицу в [choosing.md](./docs/choosing.md#сложность-операций).
 
+## Примеры из реальных задач
+
+В папке [`examples/`](https://github.com/nullvble/data-structure-js/tree/master/examples) — 15 готовых решений, которые можно перенести в свой проект:
+
+| | |
+|---|---|
+| **Бэкенд** | [rate limiter для API](./examples/rate-limiter.ts) · [кэш с TTL и склейкой запросов](./examples/async-cache.ts) · [планировщик задач с повторами](./examples/job-scheduler.ts) · [мониторинг p95 и алерты](./examples/service-monitoring.ts) |
+| **Поиск и UI** | [автодополнение](./examples/autocomplete.ts) · [поиск с И/ИЛИ/НЕ](./examples/search-index.ts) · [undo/redo](./examples/undo-redo.ts) · [таблица лидеров](./examples/leaderboard.ts) |
+| **Графы** | [порядок сборки монорепозитория](./examples/build-order.ts) · [маршруты доставки](./examples/delivery-routes.ts) · [веб-краулер](./examples/web-crawler.ts) · [дубли клиентов в CRM](./examples/merge-accounts.ts) |
+| **Время и аналитика** | [переговорные комнаты](./examples/meeting-rooms.ts) · [курс на дату](./examples/exchange-rates.ts) · [выручка за период](./examples/sales-analytics.ts) |
+
+```bash
+npm run examples                    # запустить все
+npm run examples -- rate-limiter    # один пример
+```
+
 ## Разработка
 
 ```bash
 npm install
 npm test            # тесты (node:test + tsx)
-npm run typecheck   # проверка типов
+npm run examples    # запуск примеров
+npm run typecheck   # проверка типов (библиотека и примеры)
 npm run build       # сборка в dist/ (ESM + CJS + .d.ts)
 npm run test:dist   # проверка собранного пакета
 npm run docs        # API-документация в docs/api
@@ -76,6 +93,7 @@ npm run docs        # API-документация в docs/api
 ```
 src/       исходники, по одному файлу на структуру; src/index.ts — точка входа
 test/      тесты
+examples/  примеры из реальных задач
 docs/      руководства (Markdown); docs/api — сгенерированная документация
 scripts/   вспомогательные скрипты
 ```
