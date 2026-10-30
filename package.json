@@ -1,0 +1,16 @@
+{
+  "name": "data-structure-js",
+  "version": "1.0.0",
+  "description": "Классические структуры данных, которых нет в стандартной библиотеке JavaScript",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": "./src/index.js",
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "keywords": ["data-structures", "bst", "queue", "heap", "trie", "graph"],
+  "license": "MIT"
+}
