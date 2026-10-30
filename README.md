@@ -86,7 +86,7 @@ scripts/   вспомогательные скрипты
 
 1. Один раз добавьте npm-токен в секрет репозитория `NPM_TOKEN`
    (Settings → Secrets and variables → Actions).
-2. Поднимите версию и запушьте тег:
+2. Поднимите версию и запушьте тег (или запустите workflow **Release** вручную во вкладке Actions — тег создастся сам):
 
    ```bash
    npm version patch   # или minor / major — меняет package.json и создаёт тег vX.Y.Z
